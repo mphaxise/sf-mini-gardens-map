@@ -1,7 +1,22 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { buildDraftSubmission, slugify } from "../lib/submissionDraft.mjs";
+import {
+  DRAFT_QUEUE_STATUSES,
+  buildDraftSubmission,
+  slugify,
+  updateDraftQueueStatus
+} from "../lib/submissionDraft.mjs";
+
+test("draft status list includes expected moderation states", () => {
+  assert.deepEqual(DRAFT_QUEUE_STATUSES, [
+    "queued",
+    "needs_clarification",
+    "ready_for_geocode",
+    "verified",
+    "rejected"
+  ]);
+});
 
 test("slugify normalizes mixed text", () => {
   assert.equal(slugify("Elm Alley Pot Cluster"), "elm-alley-pot-cluster");
@@ -32,6 +47,21 @@ test("buildDraftSubmission returns normalized queued draft", () => {
   assert.equal(draft.moderation.contact_optional, "example@neighborhood.org");
 });
 
+test("updateDraftQueueStatus updates status and action", () => {
+  const draft = buildDraftSubmission({
+    name: "Test Spot",
+    streetName: "Mission St",
+    fromStreet: "20th St",
+    toStreet: "21st St",
+    description: "Small frontage garden"
+  });
+
+  const updated = updateDraftQueueStatus(draft, "ready_for_geocode", new Date("2026-02-24T23:20:00.000Z"));
+  assert.equal(updated.moderation.queue_status, "ready_for_geocode");
+  assert.equal(updated.moderation.next_action, "geocode_and_prepare_canonical_entry");
+  assert.match(updated.moderation.status_notes, /ready_for_geocode/);
+});
+
 test("buildDraftSubmission rejects identical cross streets", () => {
   assert.throws(
     () =>
@@ -44,4 +74,16 @@ test("buildDraftSubmission rejects identical cross streets", () => {
       }),
     /Cross streets must be different/
   );
+});
+
+test("updateDraftQueueStatus rejects unknown status", () => {
+  const draft = buildDraftSubmission({
+    name: "Test Spot",
+    streetName: "Mission St",
+    fromStreet: "20th St",
+    toStreet: "21st St",
+    description: "Small frontage garden"
+  });
+
+  assert.throws(() => updateDraftQueueStatus(draft, "not_real"), /Invalid draft queue status/);
 });

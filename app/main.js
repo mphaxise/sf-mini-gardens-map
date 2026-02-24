@@ -1,4 +1,8 @@
-import { buildDraftSubmission } from "../lib/submissionDraft.mjs";
+import {
+  DRAFT_QUEUE_STATUSES,
+  buildDraftSubmission,
+  updateDraftQueueStatus
+} from "../lib/submissionDraft.mjs";
 
 const DATA_URL = "../data/mini-gardens.json";
 const STORAGE_KEY = "sf-mini-gardens-submission-drafts";
@@ -13,6 +17,14 @@ const draftList = document.getElementById("draft-list");
 const draftCount = document.getElementById("draft-count");
 const downloadDraftsBtn = document.getElementById("download-drafts");
 const clearDraftsBtn = document.getElementById("clear-drafts");
+
+const statusLabel = {
+  queued: "Queued",
+  needs_clarification: "Needs clarification",
+  ready_for_geocode: "Ready for geocode",
+  verified: "Verified",
+  rejected: "Rejected"
+};
 
 function mapEmbedUrl(lat, lng) {
   const delta = 0.0035;
@@ -36,14 +48,24 @@ function entryToListItem(entry) {
   `;
 }
 
+function draftActionButtons(draft) {
+  return DRAFT_QUEUE_STATUSES.map((status) => {
+    const activeClass = status === draft.moderation.queue_status ? "chip active" : "chip";
+    return `<button type="button" class="${activeClass}" data-draft-id="${draft.id}" data-status="${status}">${statusLabel[status]}</button>`;
+  }).join("");
+}
+
 function draftToListItem(draft) {
   const segment = `${draft.street_segment.street_name}, ${draft.street_segment.from_street} to ${draft.street_segment.to_street}`;
+  const queueStatus = draft.moderation?.queue_status || "queued";
+
   return `
     <li>
       <strong>${draft.name}</strong>
       <span>${segment}</span><br />
-      <span>Queue: ${draft.moderation.queue_status}</span><br />
+      <span>Queue: ${statusLabel[queueStatus] || queueStatus}</span><br />
       <span>Created: ${new Date(draft.created_on).toLocaleString()}</span>
+      <div class="draft-actions">${draftActionButtons(draft)}</div>
     </li>
   `;
 }
@@ -84,6 +106,23 @@ function downloadDrafts() {
   a.click();
   a.remove();
   URL.revokeObjectURL(href);
+}
+
+function applyDraftStatus(draftId, nextStatus) {
+  const drafts = loadDrafts();
+  const index = drafts.findIndex((item) => item.id === draftId);
+
+  if (index < 0) {
+    submissionStatus.textContent = `Draft not found: ${draftId}`;
+    submissionStatus.classList.add("error");
+    return;
+  }
+
+  drafts[index] = updateDraftQueueStatus(drafts[index], nextStatus);
+  persistDrafts(drafts);
+  renderDrafts();
+  submissionStatus.textContent = `Updated draft ${drafts[index].name} -> ${statusLabel[nextStatus]}.`;
+  submissionStatus.classList.remove("error");
 }
 
 async function loadEntries() {
@@ -130,6 +169,14 @@ submissionForm.addEventListener("submit", (event) => {
     submissionStatus.textContent = `Could not queue draft: ${error.message}`;
     submissionStatus.classList.add("error");
   }
+});
+
+draftList.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-draft-id][data-status]");
+  if (!button) {
+    return;
+  }
+  applyDraftStatus(button.dataset.draftId, button.dataset.status);
 });
 
 downloadDraftsBtn.addEventListener("click", () => {
