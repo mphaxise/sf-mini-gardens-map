@@ -37,7 +37,7 @@
         <h2>Submission workflow draft</h2>
         <ol class="workflow">
           <li>Capture a sidewalk-visible mini-garden photo and nearest cross streets.</li>
-          <li>Submit a draft entry with location notes and plant highlights.</li>
+          <li>Submit a draft entry with location notes and evidence hint.</li>
           <li>Community reviewer validates street segment and marks status.</li>
         </ol>
 
@@ -58,6 +58,18 @@
             </div>
           </label>
           <label>
+            Neighborhood hint (optional)
+            <input name="neighborhood" placeholder="e.g., Excelsior" />
+          </label>
+          <label>
+            Evidence note (optional)
+            <input name="evidence" placeholder="e.g., photo shows hanging planters" />
+          </label>
+          <label>
+            Contact (optional)
+            <input name="contact" placeholder="email or handle" />
+          </label>
+          <label>
             Short description
             <textarea
               name="description"
@@ -66,10 +78,16 @@
               placeholder="What makes this mini-garden special?"
             ></textarea>
           </label>
-          <button type="submit">Create draft submission</button>
+          <button type="submit">Queue draft submission</button>
         </form>
 
         <p id="submission-status" class="muted"></p>
+        <div class="row-actions">
+          <button id="download-drafts" type="button" class="secondary">Download drafts JSON</button>
+          <button id="clear-drafts" type="button" class="secondary">Clear local drafts</button>
+        </div>
+        <h3>Queued drafts (<span id="draft-count">0</span>)</h3>
+        <ul id="draft-list" class="entry-list"></ul>
         <pre id="submission-preview" class="preview"></pre>
       </section>
     </main>

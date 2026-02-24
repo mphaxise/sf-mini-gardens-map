@@ -1,3 +1,5 @@
+import { buildDraftSubmission } from "../lib/submissionDraft.mjs";
+
 const DATA_URL = "../data/mini-gardens.json";
 const STORAGE_KEY = "sf-mini-gardens-submission-drafts";
 
@@ -7,6 +9,10 @@ const mapStatus = document.getElementById("map-status");
 const submissionForm = document.getElementById("submission-form");
 const submissionStatus = document.getElementById("submission-status");
 const submissionPreview = document.getElementById("submission-preview");
+const draftList = document.getElementById("draft-list");
+const draftCount = document.getElementById("draft-count");
+const downloadDraftsBtn = document.getElementById("download-drafts");
+const clearDraftsBtn = document.getElementById("clear-drafts");
 
 function mapEmbedUrl(lat, lng) {
   const delta = 0.0035;
@@ -30,22 +36,16 @@ function entryToListItem(entry) {
   `;
 }
 
-function buildDraftSubmission(formData) {
-  return {
-    id: `draft-${Date.now()}`,
-    status: "pending_review",
-    city: "San Francisco",
-    state: "CA",
-    name: formData.get("name"),
-    street_segment: {
-      street_name: formData.get("streetName"),
-      from_street: formData.get("fromStreet"),
-      to_street: formData.get("toStreet")
-    },
-    description: formData.get("description"),
-    created_on: new Date().toISOString(),
-    source: "community-form-draft"
-  };
+function draftToListItem(draft) {
+  const segment = `${draft.street_segment.street_name}, ${draft.street_segment.from_street} to ${draft.street_segment.to_street}`;
+  return `
+    <li>
+      <strong>${draft.name}</strong>
+      <span>${segment}</span><br />
+      <span>Queue: ${draft.moderation.queue_status}</span><br />
+      <span>Created: ${new Date(draft.created_on).toLocaleString()}</span>
+    </li>
+  `;
 }
 
 function loadDrafts() {
@@ -56,10 +56,34 @@ function loadDrafts() {
   }
 }
 
+function persistDrafts(drafts) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(drafts));
+}
+
 function saveDraft(draft) {
   const drafts = loadDrafts();
   drafts.unshift(draft);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(drafts));
+  persistDrafts(drafts);
+  return drafts;
+}
+
+function renderDrafts() {
+  const drafts = loadDrafts();
+  draftCount.textContent = String(drafts.length);
+  draftList.innerHTML = drafts.length ? drafts.map(draftToListItem).join("") : "<li>No queued drafts yet.</li>";
+}
+
+function downloadDrafts() {
+  const drafts = loadDrafts();
+  const blob = new Blob([JSON.stringify(drafts, null, 2)], { type: "application/json" });
+  const href = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = href;
+  a.download = "mini-garden-drafts.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(href);
 }
 
 async function loadEntries() {
@@ -71,7 +95,7 @@ async function loadEntries() {
   return payload.entries || [];
 }
 
-async function init() {
+async function initEntries() {
   try {
     const entries = await loadEntries();
     if (entries.length === 0) {
@@ -92,11 +116,35 @@ async function init() {
 
 submissionForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  const draft = buildDraftSubmission(new FormData(submissionForm));
-  saveDraft(draft);
-  submissionPreview.textContent = JSON.stringify(draft, null, 2);
-  submissionStatus.textContent = "Draft saved locally. Next step: moderation review and geocode verification.";
-  submissionForm.reset();
+  const values = Object.fromEntries(new FormData(submissionForm).entries());
+
+  try {
+    const draft = buildDraftSubmission(values);
+    const drafts = saveDraft(draft);
+    submissionPreview.textContent = JSON.stringify(draft, null, 2);
+    submissionStatus.textContent = `Draft queued locally. Queue depth: ${drafts.length}.`;
+    submissionStatus.classList.remove("error");
+    submissionForm.reset();
+    renderDrafts();
+  } catch (error) {
+    submissionStatus.textContent = `Could not queue draft: ${error.message}`;
+    submissionStatus.classList.add("error");
+  }
 });
 
-init();
+downloadDraftsBtn.addEventListener("click", () => {
+  downloadDrafts();
+  submissionStatus.textContent = "Downloaded local draft queue as JSON.";
+  submissionStatus.classList.remove("error");
+});
+
+clearDraftsBtn.addEventListener("click", () => {
+  persistDrafts([]);
+  submissionPreview.textContent = "";
+  submissionStatus.textContent = "Cleared local draft queue.";
+  submissionStatus.classList.remove("error");
+  renderDrafts();
+});
+
+initEntries();
+renderDrafts();

@@ -5,6 +5,7 @@
   --muted: #5d665d;
   --accent: #3e7b44;
   --line: #d8dfd3;
+  --error: #a11d1d;
 }
 
 * {
@@ -38,6 +39,10 @@ body {
 h1 {
   margin: 0.25rem 0 0;
   font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+
+h3 {
+  margin-bottom: 0.35rem;
 }
 
 .lead {
@@ -74,6 +79,10 @@ h2 {
 
 .muted {
   color: var(--muted);
+}
+
+.error {
+  color: var(--error);
 }
 
 #map-frame {
@@ -135,15 +144,31 @@ h2 {
   grid-template-columns: 1fr 1fr;
 }
 
-.submission-form button {
+.submission-form button,
+.row-actions button {
   border: 0;
   border-radius: 8px;
   padding: 0.65rem 0.8rem;
-  background: var(--accent);
-  color: white;
   font: inherit;
   font-weight: 600;
   cursor: pointer;
+}
+
+.submission-form button {
+  background: var(--accent);
+  color: white;
+}
+
+.row-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin: 0.65rem 0 0.25rem;
+}
+
+.row-actions .secondary {
+  background: #e6ece3;
+  color: #2b372b;
 }
 
 .preview {
@@ -157,7 +182,8 @@ h2 {
 }
 
 @media (max-width: 640px) {
-  .submission-form .row {
+  .submission-form .row,
+  .row-actions {
     grid-template-columns: 1fr;
   }
 }
