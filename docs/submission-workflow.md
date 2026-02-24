@@ -29,3 +29,14 @@ Provide a simple and respectful flow for collecting mini-garden sightings, then 
 - Publish only publicly visible frontage details.
 - Do not publish private contact info in public dataset entries.
 - Avoid exact house-level metadata unless already visible from public right-of-way and necessary for wayfinding.
+
+## Promotion command (verified draft -> canonical)
+```bash
+npm run promote:draft -- \
+  --draft data/submission-draft-verified-example.json \
+  --lat 37.7410 \
+  --lng -122.4110 \
+  --verified-on 2026-02-24 \
+  --verifier moderator-1 \
+  --dry-run
+```

@@ -1,0 +1,22 @@
+{
+  "id": "sf-draft-example-20260224230000",
+  "status": "pending_review",
+  "city": "San Francisco",
+  "state": "CA",
+  "name": "Example Mini-Garden",
+  "neighborhood": "TBD",
+  "street_segment": {
+    "street_name": "Example St",
+    "from_street": "First St",
+    "to_street": "Second St"
+  },
+  "description": "Draft submission example for moderator review.",
+  "evidence_note": "Optional photo or observation note",
+  "created_on": "2026-02-24T23:00:00.000Z",
+  "source": "community-form-draft",
+  "moderation": {
+    "queue_status": "verified",
+    "next_action": "promote_to_canonical_dataset",
+    "contact_optional": ""
+  }
+}
