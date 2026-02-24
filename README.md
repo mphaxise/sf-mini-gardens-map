@@ -42,6 +42,8 @@ npm run start
 - One static map discovery page with a queued submission workflow and local draft export
 
 ## Near-term backlog
+
+Detailed task list: `docs/next-step-backlog.md`
 1. Add moderator actions in UI (`needs_clarification` / `ready_for_geocode` / `verified`) for queued drafts.
 2. Add duplicate detection for nearby submissions.
 3. Promote approved drafts into canonical `data/mini-gardens.json` through a scripted merge flow.
