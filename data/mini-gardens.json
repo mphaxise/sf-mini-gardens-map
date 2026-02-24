@@ -43,6 +43,39 @@
         "caption": "Sidewalk mini-garden with potted plants and hanging baskets along a neighborhood street.",
         "usage": "Seed visual reference for pilot listing and submission guidelines."
       }
+    },
+    {
+      "id": "sf-folsom-nevada-powhattan-001",
+      "name": "Folsom Corridor Mini-Garden (Workflow Sample)",
+      "status": "verified",
+      "city": "San Francisco",
+      "state": "CA",
+      "street_segment": {
+        "street_name": "Folsom St",
+        "from_street": "Nevada St",
+        "to_street": "Powhattan Ave"
+      },
+      "coordinates": {
+        "lat": 37.741,
+        "lng": -122.411
+      },
+      "neighborhood": "Bernal Heights",
+      "description": "Workflow sample entry representing a sidewalk-visible container mini-garden cluster on a Bernal Heights corridor.",
+      "plant_highlights": [
+        "Community-submitted mini-garden"
+      ],
+      "visit_notes": "Publicly visible from the street. Respect resident space and keep sidewalks clear.",
+      "privacy_level": "public-street-visible",
+      "verification": {
+        "verified_on": "2026-02-24",
+        "evidence": "Moderator-reviewed workflow sample used to validate draft-to-canonical promotion.",
+        "verifier": "moderator-1"
+      },
+      "submission": {
+        "source": "community-form-draft",
+        "created_on": "2026-02-24",
+        "contact_optional": ""
+      }
     }
   ]
 }

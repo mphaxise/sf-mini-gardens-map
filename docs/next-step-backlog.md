@@ -22,7 +22,7 @@
 - Deliverable: filter control for neighborhood values in canonical entries.
 - Acceptance: list and map focus update based on selected neighborhood.
 
-5. Add second verified entry
+5. Add second verified entry ✅ done
 - Deliverable: one additional SF verified record with evidence and moderation notes.
 - Acceptance: tests pass and UI renders at least two verified entries.
 

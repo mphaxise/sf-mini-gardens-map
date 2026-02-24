@@ -1,17 +1,17 @@
 {
-  "id": "sf-draft-example-20260224230000",
+  "id": "sf-draft-folsom-nevada-powhattan-001",
   "status": "pending_review",
   "city": "San Francisco",
   "state": "CA",
-  "name": "Example Mini-Garden",
-  "neighborhood": "TBD",
+  "name": "Folsom Corridor Mini-Garden (Workflow Sample)",
+  "neighborhood": "Bernal Heights",
   "street_segment": {
-    "street_name": "Example St",
-    "from_street": "First St",
-    "to_street": "Second St"
+    "street_name": "Folsom St",
+    "from_street": "Nevada St",
+    "to_street": "Powhattan Ave"
   },
-  "description": "Draft submission example for moderator review.",
-  "evidence_note": "Optional photo or observation note",
+  "description": "Workflow sample entry representing a sidewalk-visible container mini-garden cluster on a Bernal Heights corridor.",
+  "evidence_note": "Moderator-reviewed workflow sample used to validate draft-to-canonical promotion.",
   "created_on": "2026-02-24T23:00:00.000Z",
   "source": "community-form-draft",
   "moderation": {

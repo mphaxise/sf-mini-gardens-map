@@ -38,8 +38,8 @@ npm run start
 
 ## Current MVP slice
 - One schema-driven data model for mini-garden entries
-- One verified pilot entry on Jarboe St (between Ellsworth St and Gates St)
-- One static map discovery page with neighborhood filtering, queued submission workflow, moderator status controls, and local draft export
+- Two verified pilot entries: Jarboe St (Excelsior) and Folsom St corridor (Bernal Heights workflow sample)
+- One static map discovery page with neighborhood filtering, two verified canonical entries, queued submission workflow, moderator status controls, and local draft export
 
 ## Near-term backlog
 
