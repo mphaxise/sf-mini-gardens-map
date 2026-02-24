@@ -1,3 +1,4 @@
+import { buildNeighborhoodOptions, filterEntriesByNeighborhood } from "../lib/entryFilters.mjs";
 import {
   DRAFT_QUEUE_STATUSES,
   buildDraftSubmission,
@@ -11,6 +12,8 @@ const STORAGE_KEY = "sf-mini-gardens-submission-drafts";
 const entriesList = document.getElementById("entries");
 const mapFrame = document.getElementById("map-frame");
 const mapStatus = document.getElementById("map-status");
+const neighborhoodFilter = document.getElementById("neighborhood-filter");
+const visibleEntryCount = document.getElementById("visible-entry-count");
 const submissionForm = document.getElementById("submission-form");
 const submissionStatus = document.getElementById("submission-status");
 const submissionPreview = document.getElementById("submission-preview");
@@ -98,6 +101,28 @@ function renderDrafts() {
   draftList.innerHTML = drafts.length ? drafts.map(draftToListItem).join("") : "<li>No queued drafts yet.</li>";
 }
 
+function renderNeighborhoodOptions(entries) {
+  const options = buildNeighborhoodOptions(entries);
+  neighborhoodFilter.innerHTML = ['<option value="all">All neighborhoods</option>', ...options.map((name) => `<option value="${name}">${name}</option>`)].join("");
+}
+
+function renderCanonicalEntries() {
+  const filtered = filterEntriesByNeighborhood(canonicalEntries, neighborhoodFilter.value);
+  visibleEntryCount.textContent = String(filtered.length);
+
+  if (filtered.length === 0) {
+    entriesList.innerHTML = "<li>No entries for selected neighborhood.</li>";
+    mapStatus.textContent = "No map focus for selected neighborhood.";
+    mapFrame.removeAttribute("src");
+    return;
+  }
+
+  entriesList.innerHTML = filtered.map(entryToListItem).join("");
+  const focus = filtered[0];
+  mapFrame.src = mapEmbedUrl(focus.coordinates.lat, focus.coordinates.lng);
+  mapStatus.textContent = `Showing ${focus.street_segment.street_name} (${focus.neighborhood}).`;
+}
+
 function downloadDrafts() {
   const drafts = loadDrafts();
   const blob = new Blob([JSON.stringify(drafts, null, 2)], { type: "application/json" });
@@ -143,16 +168,16 @@ async function initEntries() {
     if (canonicalEntries.length === 0) {
       mapStatus.textContent = "No entries available yet.";
       entriesList.innerHTML = "<li>No verified entries.</li>";
+      visibleEntryCount.textContent = "0";
       return;
     }
 
-    entriesList.innerHTML = canonicalEntries.map(entryToListItem).join("");
-    const focus = canonicalEntries[0];
-    mapFrame.src = mapEmbedUrl(focus.coordinates.lat, focus.coordinates.lng);
-    mapStatus.textContent = `Showing ${focus.street_segment.street_name} pilot entry.`;
+    renderNeighborhoodOptions(canonicalEntries);
+    renderCanonicalEntries();
   } catch (error) {
     mapStatus.textContent = `Unable to load map data: ${error.message}`;
     entriesList.innerHTML = "<li>Data failed to load.</li>";
+    visibleEntryCount.textContent = "0";
   }
 }
 
@@ -186,6 +211,10 @@ draftList.addEventListener("click", (event) => {
     return;
   }
   applyDraftStatus(button.dataset.draftId, button.dataset.status);
+});
+
+neighborhoodFilter.addEventListener("change", () => {
+  renderCanonicalEntries();
 });
 
 downloadDraftsBtn.addEventListener("click", () => {

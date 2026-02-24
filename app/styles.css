@@ -77,6 +77,22 @@ h2 {
   font-size: 1.2rem;
 }
 
+.filter {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.92rem;
+  margin-bottom: 0.4rem;
+}
+
+.filter select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.5rem;
+  background: #fbfcf9;
+  font: inherit;
+}
+
 .muted {
   color: var(--muted);
 }

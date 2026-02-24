@@ -18,7 +18,7 @@
 - Deliverable: draft ingest check that blocks submissions with identical street segment + near-identical name.
 - Acceptance: duplicate candidate is rejected with a clear message.
 
-4. Add neighborhood filtering in map/list view
+4. Add neighborhood filtering in map/list view ✅ done
 - Deliverable: filter control for neighborhood values in canonical entries.
 - Acceptance: list and map focus update based on selected neighborhood.
 
