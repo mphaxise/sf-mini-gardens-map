@@ -32,3 +32,4 @@
 
 ### Documentation
 - Added post-MVP retrospective: `docs/mvp-retrospective-2026-02-24.md`.
+- Added direction-setting brainstorm: `docs/brainstorm-urban-community-nature.md`.

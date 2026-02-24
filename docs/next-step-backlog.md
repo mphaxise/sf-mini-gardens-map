@@ -31,6 +31,8 @@
 - Deliverable: alias-based contributor model with no personal identity fields.
 - Acceptance: submissions and promotions include anonymous contributor metadata only.
 
+Brainstorm directions: `docs/brainstorm-urban-community-nature.md`
+
 ## Suggested next tasks
 
 Retrospective reference: `docs/mvp-retrospective-2026-02-24.md`
