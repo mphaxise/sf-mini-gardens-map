@@ -57,6 +57,9 @@ npm run explore:seed -- \
 - Submission moderation queue with status controls and duplicate gating
 - Seed-photo public-data exploration panel with suggested up-to-2-mile walk loop from API-only data pull
 
+## Return reminder
+When you come back, start here: `docs/next-session-start-here.md`
+
 ## Project docs
 - Backlog: `docs/next-step-backlog.md`
 - Release summary: `CHANGELOG.md`

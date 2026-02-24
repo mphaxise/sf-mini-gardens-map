@@ -43,3 +43,4 @@
 - Added post-MVP retrospective: `docs/mvp-retrospective-2026-02-24.md`.
 - Added direction-setting brainstorm: `docs/brainstorm-urban-community-nature.md`.
 - Added public data exploration spec: `docs/public-data-exploration.md`.
+- Added return reminder/handoff doc: `docs/next-session-start-here.md`.

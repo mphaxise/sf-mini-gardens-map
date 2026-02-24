@@ -40,6 +40,9 @@ Brainstorm directions: `docs/brainstorm-urban-community-nature.md`
 Retrospective reference: `docs/mvp-retrospective-2026-02-24.md`
 
 ## Suggested next tasks
+
+Return reminder: `docs/next-session-start-here.md`
+
 1. Replace static serving with a lightweight API service for shared moderation queue state.
 2. Add map clustering and distance-based discovery sorting.
 3. Add moderation-only abuse defenses (hashed fingerprints, rate limits, alias policy checks) without exposing identity.
