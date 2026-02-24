@@ -44,6 +44,8 @@ npm run start
 ## Near-term backlog
 
 Detailed task list: `docs/next-step-backlog.md`
+
+Latest release summary: `CHANGELOG.md`
 1. Add moderator actions in UI (`needs_clarification` / `ready_for_geocode` / `verified`) for queued drafts.
 2. Add duplicate detection for nearby submissions.
 3. Promote approved drafts into canonical `data/mini-gardens.json` through `npm run promote:draft -- --draft ... --lat ... --lng ...`.
