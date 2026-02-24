@@ -34,7 +34,9 @@
       "submission": {
         "source": "manual_ideas.json",
         "created_on": "2026-02-24",
-        "contact_optional": ""
+        "contributor_anon_id": "anon-founder-seed",
+        "contributor_alias": "Founder Seed",
+        "contributor_trust_tier": "canopy"
       },
       "photo_reference": {
         "source": "user-uploaded chat image",
@@ -74,7 +76,9 @@
       "submission": {
         "source": "community-form-draft",
         "created_on": "2026-02-24",
-        "contact_optional": ""
+        "contributor_anon_id": "anon-workflow-seed",
+        "contributor_alias": "Workflow Seed",
+        "contributor_trust_tier": "sprout"
       }
     }
   ]

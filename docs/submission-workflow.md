@@ -7,10 +7,10 @@ Provide a simple and respectful flow for collecting mini-garden sightings, then 
 - Garden name
 - Street name
 - From/To cross streets
+- Anonymous alias (optional)
 - Neighborhood hint (optional)
 - Short description
 - Evidence note or photo reference hint (optional)
-- Contact handle/email (optional)
 
 ## Moderation queue states
 1. `queued`: draft saved, awaiting reviewer triage.
@@ -23,11 +23,13 @@ Provide a simple and respectful flow for collecting mini-garden sightings, then 
 - Confirm the street segment has two distinct cross streets.
 - Confirm the location is in San Francisco and publicly sidewalk-visible.
 - Confirm the description/evidence does not expose sensitive personal details.
+- Confirm contributor metadata is anonymous (`anon_id`, alias, trust tier).
 - Mark outcome and notes; if accepted, migrate into `data/mini-gardens.json` with full schema fields.
 
 ## Privacy guardrails
 - Publish only publicly visible frontage details.
-- Do not publish private contact info in public dataset entries.
+- Do not collect real names, emails, phone numbers, or personal handles in contributor metadata.
+- Store and display only anonymous contributor profile attributes.
 - Avoid exact house-level metadata unless already visible from public right-of-way and necessary for wayfinding.
 
 ## Promotion command (verified draft -> canonical)

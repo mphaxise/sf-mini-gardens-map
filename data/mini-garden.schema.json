@@ -100,11 +100,22 @@
           },
           "submission": {
             "type": "object",
-            "required": ["source", "created_on", "contact_optional"],
+            "required": [
+              "source",
+              "created_on",
+              "contributor_anon_id",
+              "contributor_alias",
+              "contributor_trust_tier"
+            ],
             "properties": {
               "source": { "type": "string" },
               "created_on": { "type": "string", "format": "date" },
-              "contact_optional": { "type": "string" }
+              "contributor_anon_id": { "type": "string", "pattern": "^anon-[a-z0-9-]+$" },
+              "contributor_alias": { "type": "string", "minLength": 1 },
+              "contributor_trust_tier": {
+                "type": "string",
+                "enum": ["seedling", "sprout", "canopy"]
+              }
             }
           },
           "photo_reference": {

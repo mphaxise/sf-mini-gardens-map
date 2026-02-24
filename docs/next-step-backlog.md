@@ -4,6 +4,7 @@
 - Public repo is live with strategy docs, validated seed data, and a static MVP page.
 - Two verified SF pilot entries are published in the canonical dataset.
 - Draft submissions can be queued locally, moderated, deduplicated, exported, and promoted.
+- Contributor profiles are anonymous-by-default with alias-based trust tiers.
 
 ## Completed execution tasks
 1. Add moderator actions in UI ✅ done
@@ -26,7 +27,11 @@
 - Deliverable: one additional SF verified record with evidence and moderation notes.
 - Acceptance: tests pass and UI renders at least two verified entries.
 
+6. Add anonymous contributor profiles ✅ done
+- Deliverable: alias-based contributor model with no personal identity fields.
+- Acceptance: submissions and promotions include anonymous contributor metadata only.
+
 ## Suggested next tasks
 1. Replace static serving with a lightweight API service for shared moderation queue state.
 2. Add map clustering and distance-based discovery sorting.
-3. Add contributor profiles and trust signals for moderation prioritization.
+3. Add moderation-only abuse defenses (hashed fingerprints, rate limits, alias policy checks) without exposing identity.

@@ -19,8 +19,8 @@ This repository starts a neighborhood-level outdoor discovery product that helps
 - `data/` schema and seed entries
 - `app/` static MVP UI (map + cards + queued draft workflow)
 - `lib/` reusable workflow helpers
-- `data/submission-draft-template.json` moderation queue payload template
 - `docs/submission-workflow.md` moderation rubric and queue states
+- `docs/anonymous-contributor-profiles.md` anonymous profile model and guardrails
 - `scripts/` lightweight validation checks
 - `tests/` minimal regression checks for the first slice
 
@@ -39,13 +39,10 @@ npm run start
 ## Current MVP slice
 - One schema-driven data model for mini-garden entries
 - Two verified pilot entries: Jarboe St (Excelsior) and Folsom St corridor (Bernal Heights workflow sample)
-- One static map discovery page with neighborhood filtering, two verified canonical entries, queued submission workflow, moderator status controls, and local draft export
+- One static map discovery page with neighborhood filtering, two verified canonical entries, queued submission workflow, moderator status controls, duplicate gating, and local draft export
+- Anonymous contributor profiles with alias-based trust tiers (no personal identity fields)
 
 ## Near-term backlog
-
 Detailed task list: `docs/next-step-backlog.md`
 
 Latest release summary: `CHANGELOG.md`
-1. Add moderator actions in UI (`needs_clarification` / `ready_for_geocode` / `verified`) for queued drafts.
-2. Add duplicate detection for nearby submissions.
-3. Promote approved drafts into canonical `data/mini-gardens.json` through `npm run promote:draft -- --draft ... --lat ... --lng ...`.

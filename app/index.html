@@ -42,6 +42,7 @@
 
       <section class="panel">
         <h2>Submission workflow draft</h2>
+        <p class="muted">Contributors stay anonymous by default. Use an alias and avoid posting personal contact details.</p>
         <ol class="workflow">
           <li>Capture a sidewalk-visible mini-garden photo and nearest cross streets.</li>
           <li>Submit a draft entry with location notes and evidence hint.</li>
@@ -65,16 +66,16 @@
             </div>
           </label>
           <label>
+            Anonymous alias (optional)
+            <input name="alias" placeholder="e.g., Foggy Planter" />
+          </label>
+          <label>
             Neighborhood hint (optional)
             <input name="neighborhood" placeholder="e.g., Excelsior" />
           </label>
           <label>
             Evidence note (optional)
             <input name="evidence" placeholder="e.g., photo shows hanging planters" />
-          </label>
-          <label>
-            Contact (optional)
-            <input name="contact" placeholder="email or handle" />
           </label>
           <label>
             Short description
@@ -95,6 +96,8 @@
         </div>
         <h3>Queued drafts (<span id="draft-count">0</span>)</h3>
         <ul id="draft-list" class="entry-list"></ul>
+        <h3>Anonymous contributors (<span id="contributor-count">0</span>)</h3>
+        <ul id="contributor-list" class="entry-list"></ul>
         <pre id="submission-preview" class="preview"></pre>
       </section>
     </main>

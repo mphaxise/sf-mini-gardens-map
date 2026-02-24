@@ -1,5 +1,10 @@
 import { buildNeighborhoodOptions, filterEntriesByNeighborhood } from "../lib/entryFilters.mjs";
 import {
+  applyModerationOutcome,
+  ensureProfileForSubmission,
+  publicContributorSnapshot
+} from "../lib/anonymousContributors.mjs";
+import {
   DRAFT_QUEUE_STATUSES,
   buildDraftSubmission,
   hasDuplicateSubmission,
@@ -7,7 +12,8 @@ import {
 } from "../lib/submissionDraft.mjs";
 
 const DATA_URL = "../data/mini-gardens.json";
-const STORAGE_KEY = "sf-mini-gardens-submission-drafts";
+const DRAFT_STORAGE_KEY = "sf-mini-gardens-submission-drafts";
+const PROFILE_STORAGE_KEY = "sf-mini-gardens-anonymous-profiles";
 
 const entriesList = document.getElementById("entries");
 const mapFrame = document.getElementById("map-frame");
@@ -19,6 +25,8 @@ const submissionStatus = document.getElementById("submission-status");
 const submissionPreview = document.getElementById("submission-preview");
 const draftList = document.getElementById("draft-list");
 const draftCount = document.getElementById("draft-count");
+const contributorList = document.getElementById("contributor-list");
+const contributorCount = document.getElementById("contributor-count");
 const downloadDraftsBtn = document.getElementById("download-drafts");
 const clearDraftsBtn = document.getElementById("clear-drafts");
 
@@ -54,6 +62,17 @@ function entryToListItem(entry) {
   `;
 }
 
+function contributorToListItem(profile) {
+  return `
+    <li>
+      <strong>${profile.public_alias}</strong>
+      <span>Anon ID: ${profile.anon_id}</span><br />
+      <span>Tier: ${profile.trust_tier}</span><br />
+      <span>Submissions: ${profile.contribution_count} | Verified: ${profile.verified_count}</span>
+    </li>
+  `;
+}
+
 function draftActionButtons(draft) {
   return DRAFT_QUEUE_STATUSES.map((status) => {
     const activeClass = status === draft.moderation.queue_status ? "chip active" : "chip";
@@ -64,11 +83,13 @@ function draftActionButtons(draft) {
 function draftToListItem(draft) {
   const segment = `${draft.street_segment.street_name}, ${draft.street_segment.from_street} to ${draft.street_segment.to_street}`;
   const queueStatus = draft.moderation?.queue_status || "queued";
+  const contributor = draft.contributor || {};
 
   return `
     <li>
       <strong>${draft.name}</strong>
       <span>${segment}</span><br />
+      <span>Contributor: ${contributor.public_alias || "Anonymous"} (${contributor.trust_tier || "seedling"})</span><br />
       <span>Queue: ${statusLabel[queueStatus] || queueStatus}</span><br />
       <span>Created: ${new Date(draft.created_on).toLocaleString()}</span>
       <div class="draft-actions">${draftActionButtons(draft)}</div>
@@ -78,14 +99,26 @@ function draftToListItem(draft) {
 
 function loadDrafts() {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    return JSON.parse(localStorage.getItem(DRAFT_STORAGE_KEY) || "[]");
   } catch {
     return [];
   }
 }
 
 function persistDrafts(drafts) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(drafts));
+  localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(drafts));
+}
+
+function loadProfiles() {
+  try {
+    return JSON.parse(localStorage.getItem(PROFILE_STORAGE_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function persistProfiles(profiles) {
+  localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profiles));
 }
 
 function saveDraft(draft) {
@@ -99,6 +132,18 @@ function renderDrafts() {
   const drafts = loadDrafts();
   draftCount.textContent = String(drafts.length);
   draftList.innerHTML = drafts.length ? drafts.map(draftToListItem).join("") : "<li>No queued drafts yet.</li>";
+}
+
+function renderContributors() {
+  const profiles = loadProfiles().sort((a, b) => {
+    if ((b.verified_count || 0) !== (a.verified_count || 0)) {
+      return (b.verified_count || 0) - (a.verified_count || 0);
+    }
+    return (b.contribution_count || 0) - (a.contribution_count || 0);
+  });
+
+  contributorCount.textContent = String(profiles.length);
+  contributorList.innerHTML = profiles.length ? profiles.map(contributorToListItem).join("") : "<li>No anonymous contributors yet.</li>";
 }
 
 function renderNeighborhoodOptions(entries) {
@@ -146,9 +191,24 @@ function applyDraftStatus(draftId, nextStatus) {
     return;
   }
 
+  const previousStatus = drafts[index].moderation?.queue_status || "queued";
   drafts[index] = updateDraftQueueStatus(drafts[index], nextStatus);
+
+  const moderation = applyModerationOutcome(
+    loadProfiles(),
+    drafts[index].contributor?.anon_id,
+    previousStatus,
+    nextStatus
+  );
+
+  if (moderation.profile && drafts[index].contributor) {
+    drafts[index].contributor.trust_tier = moderation.profile.trust_tier;
+  }
+
+  persistProfiles(moderation.profiles);
   persistDrafts(drafts);
   renderDrafts();
+  renderContributors();
   submissionStatus.textContent = `Updated draft ${drafts[index].name} -> ${statusLabel[nextStatus]}.`;
   submissionStatus.classList.remove("error");
 }
@@ -186,19 +246,24 @@ submissionForm.addEventListener("submit", (event) => {
   const values = Object.fromEntries(new FormData(submissionForm).entries());
 
   try {
-    const draft = buildDraftSubmission(values);
+    const profileResult = ensureProfileForSubmission(loadProfiles(), values.alias, new Date());
+
+    const contributor = publicContributorSnapshot(profileResult.profile);
+    const draft = buildDraftSubmission(values, contributor, new Date());
     const duplicatePool = [...loadDrafts(), ...canonicalEntries];
 
     if (hasDuplicateSubmission(draft, duplicatePool)) {
       throw new Error("Potential duplicate found for this street corridor and name");
     }
 
+    persistProfiles(profileResult.profiles);
     const drafts = saveDraft(draft);
     submissionPreview.textContent = JSON.stringify(draft, null, 2);
-    submissionStatus.textContent = `Draft queued locally. Queue depth: ${drafts.length}.`;
+    submissionStatus.textContent = `${profileResult.created ? "Created" : "Using"} anonymous alias ${contributor.public_alias}. Queue depth: ${drafts.length}.`;
     submissionStatus.classList.remove("error");
     submissionForm.reset();
     renderDrafts();
+    renderContributors();
   } catch (error) {
     submissionStatus.textContent = `Could not queue draft: ${error.message}`;
     submissionStatus.classList.add("error");
@@ -233,3 +298,4 @@ clearDraftsBtn.addEventListener("click", () => {
 
 initEntries();
 renderDrafts();
+renderContributors();

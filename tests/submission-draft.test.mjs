@@ -10,6 +10,13 @@ import {
   updateDraftQueueStatus
 } from "../lib/submissionDraft.mjs";
 
+const ANON_PROFILE = {
+  anon_id: "anon-test-seed",
+  public_alias: "Test Seed",
+  trust_tier: "seedling",
+  privacy_mode: "anonymous"
+};
+
 test("draft status list includes expected moderation states", () => {
   assert.deepEqual(DRAFT_QUEUE_STATUSES, [
     "queued",
@@ -89,9 +96,9 @@ test("buildDraftSubmission returns normalized queued draft", () => {
       toStreet: "Gates St",
       neighborhood: "Excelsior",
       description: "Container plants along a sidewalk frontage.",
-      evidence: "Photo shows hanging baskets",
-      contact: "example@neighborhood.org"
+      evidence: "Photo shows hanging baskets"
     },
+    ANON_PROFILE,
     fixed
   );
 
@@ -100,17 +107,20 @@ test("buildDraftSubmission returns normalized queued draft", () => {
   assert.equal(draft.city, "San Francisco");
   assert.equal(draft.street_segment.street_name, "Jarboe St");
   assert.equal(draft.moderation.queue_status, "queued");
-  assert.equal(draft.moderation.contact_optional, "example@neighborhood.org");
+  assert.equal(draft.contributor.anon_id, "anon-test-seed");
 });
 
 test("updateDraftQueueStatus updates status and action", () => {
-  const draft = buildDraftSubmission({
-    name: "Test Spot",
-    streetName: "Mission St",
-    fromStreet: "20th St",
-    toStreet: "21st St",
-    description: "Small frontage garden"
-  });
+  const draft = buildDraftSubmission(
+    {
+      name: "Test Spot",
+      streetName: "Mission St",
+      fromStreet: "20th St",
+      toStreet: "21st St",
+      description: "Small frontage garden"
+    },
+    ANON_PROFILE
+  );
 
   const updated = updateDraftQueueStatus(draft, "ready_for_geocode", new Date("2026-02-24T23:20:00.000Z"));
   assert.equal(updated.moderation.queue_status, "ready_for_geocode");
@@ -118,28 +128,48 @@ test("updateDraftQueueStatus updates status and action", () => {
   assert.match(updated.moderation.status_notes, /ready_for_geocode/);
 });
 
-test("buildDraftSubmission rejects identical cross streets", () => {
+test("buildDraftSubmission rejects missing anonymous profile", () => {
   assert.throws(
     () =>
       buildDraftSubmission({
         name: "Test",
         streetName: "Mission St",
         fromStreet: "19th St",
-        toStreet: "19th St",
+        toStreet: "20th St",
         description: "test"
       }),
+    /Anonymous contributor profile is required/
+  );
+});
+
+test("buildDraftSubmission rejects identical cross streets", () => {
+  assert.throws(
+    () =>
+      buildDraftSubmission(
+        {
+          name: "Test",
+          streetName: "Mission St",
+          fromStreet: "19th St",
+          toStreet: "19th St",
+          description: "test"
+        },
+        ANON_PROFILE
+      ),
     /Cross streets must be different/
   );
 });
 
 test("updateDraftQueueStatus rejects unknown status", () => {
-  const draft = buildDraftSubmission({
-    name: "Test Spot",
-    streetName: "Mission St",
-    fromStreet: "20th St",
-    toStreet: "21st St",
-    description: "Small frontage garden"
-  });
+  const draft = buildDraftSubmission(
+    {
+      name: "Test Spot",
+      streetName: "Mission St",
+      fromStreet: "20th St",
+      toStreet: "21st St",
+      description: "Small frontage garden"
+    },
+    ANON_PROFILE
+  );
 
   assert.throws(() => updateDraftQueueStatus(draft, "not_real"), /Invalid draft queue status/);
 });

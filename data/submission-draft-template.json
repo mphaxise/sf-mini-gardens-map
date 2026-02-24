@@ -14,9 +14,15 @@
   "evidence_note": "Optional photo or observation note",
   "created_on": "2026-02-24T23:00:00.000Z",
   "source": "community-form-draft",
+  "contributor": {
+    "anon_id": "anon-example-seed",
+    "public_alias": "Quiet Seed",
+    "trust_tier": "seedling",
+    "privacy_mode": "anonymous"
+  },
   "moderation": {
     "queue_status": "queued",
     "next_action": "verify_street_segment_and_photo",
-    "contact_optional": ""
+    "status_notes": ""
   }
 }

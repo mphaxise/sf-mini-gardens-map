@@ -16,6 +16,7 @@ const REQUIRED_ENTRY_FIELDS = [
 
 const STATUS_VALUES = new Set(["verified", "pending_review", "rejected"]);
 const PRIVACY_VALUES = new Set(["public-street-visible", "sensitive"]);
+const TRUST_TIER_VALUES = new Set(["seedling", "sprout", "canopy"]);
 
 function isObject(value) {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -105,10 +106,18 @@ export function validateMiniGarden(entry, index = 0) {
   if (!isObject(entry.submission)) {
     errors.push(`${prefix}.submission must be an object`);
   } else {
-    for (const field of ["source", "created_on", "contact_optional"]) {
+    for (const field of ["source", "created_on", "contributor_anon_id", "contributor_alias", "contributor_trust_tier"]) {
       if (typeof entry.submission[field] !== "string") {
         errors.push(`${prefix}.submission.${field} must be a string`);
       }
+    }
+
+    if (hasText(entry.submission.contributor_anon_id) && !/^anon-[a-z0-9-]+$/.test(entry.submission.contributor_anon_id)) {
+      errors.push(`${prefix}.submission.contributor_anon_id must match /^anon-[a-z0-9-]+$/`);
+    }
+
+    if (hasText(entry.submission.contributor_trust_tier) && !TRUST_TIER_VALUES.has(entry.submission.contributor_trust_tier)) {
+      errors.push(`${prefix}.submission.contributor_trust_tier must be one of: ${Array.from(TRUST_TIER_VALUES).join(", ")}`);
     }
   }
 

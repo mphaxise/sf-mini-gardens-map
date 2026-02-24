@@ -28,10 +28,16 @@ function makeDraft(overrides = {}) {
     evidence_note: "Photo + sidewalk observation",
     created_on: "2026-02-24T23:59:59.000Z",
     source: "community-form-draft",
+    contributor: {
+      anon_id: "anon-test-sprout",
+      public_alias: "Test Sprout",
+      trust_tier: "sprout",
+      privacy_mode: "anonymous"
+    },
     moderation: {
       queue_status: "verified",
       next_action: "promote_to_canonical_dataset",
-      contact_optional: ""
+      status_notes: ""
     },
     ...overrides
   };
@@ -51,6 +57,8 @@ test("promoteDraftToDataset appends canonical entry and remains valid", () => {
   assert.equal(promoted.id, "sf-new-corridor-20260224235959");
   assert.equal(promoted.status, "verified");
   assert.equal(promoted.verification.verifier, "moderator-1");
+  assert.equal(promoted.submission.contributor_anon_id, "anon-test-sprout");
+  assert.equal(promoted.submission.contributor_alias, "Test Sprout");
 
   const errors = validateDataset(updated);
   assert.deepEqual(errors, []);
