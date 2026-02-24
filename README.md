@@ -16,13 +16,14 @@ This repository starts a neighborhood-level outdoor discovery product that helps
 
 ## Repository layout
 - `docs/` strategy and planning artifacts
-- `data/` schema and seed entries
-- `app/` static MVP UI (map + cards + queued draft workflow)
+- `data/` schema, seed entries, and exploration outputs
+- `app/` static MVP UI
 - `lib/` reusable workflow helpers
 - `docs/submission-workflow.md` moderation rubric and queue states
 - `docs/anonymous-contributor-profiles.md` anonymous profile model and guardrails
-- `scripts/` lightweight validation checks
-- `tests/` minimal regression checks for the first slice
+- `docs/public-data-exploration.md` seed-photo public-data exploration approach
+- `scripts/` validation and data pipeline scripts
+- `tests/` regression checks
 
 ## Quick start
 1. Run checks:
@@ -36,17 +37,28 @@ npm run start
 ```
 3. Open <http://localhost:4173/app/>
 
+## Public-data exploration (minimal ingestion)
+Generate exploration candidates from one seed location and suggested max walk loop:
+
+```bash
+npm run explore:seed -- \
+  --seedId sf-jarboe-ellsworth-gates-001 \
+  --radiusMiles 2 \
+  --maxWalkMiles 2 \
+  --maxStops 4 \
+  --perPage 80
+```
+
 ## Current MVP slice
 - One schema-driven data model for mini-garden entries
 - Two verified pilot entries: Jarboe St (Excelsior) and Folsom St corridor (Bernal Heights workflow sample)
-- One static map discovery page with neighborhood filtering, two verified canonical entries, queued submission workflow, moderator status controls, duplicate gating, and local draft export
+- Static discovery page with neighborhood filtering, canonical entries, and map view
 - Anonymous contributor profiles with alias-based trust tiers (no personal identity fields)
+- Submission moderation queue with status controls and duplicate gating
+- Seed-photo public-data exploration panel with suggested up-to-2-mile walk loop from API-only data pull
 
-## Near-term backlog
-Detailed task list: `docs/next-step-backlog.md`
-
-Latest release summary: `CHANGELOG.md`
-
-Retrospective: `docs/mvp-retrospective-2026-02-24.md`
-
-Brainstorm directions: `docs/brainstorm-urban-community-nature.md`
+## Project docs
+- Backlog: `docs/next-step-backlog.md`
+- Release summary: `CHANGELOG.md`
+- Retrospective: `docs/mvp-retrospective-2026-02-24.md`
+- Brainstorm directions: `docs/brainstorm-urban-community-nature.md`

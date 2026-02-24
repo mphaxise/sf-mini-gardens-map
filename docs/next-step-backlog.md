@@ -5,6 +5,7 @@
 - Two verified SF pilot entries are published in the canonical dataset.
 - Draft submissions can be queued locally, moderated, deduplicated, exported, and promoted.
 - Contributor profiles are anonymous-by-default with alias-based trust tiers.
+- Seed-photo public-data exploration is wired and shows a suggested max 2-mile walk loop.
 
 ## Completed execution tasks
 1. Add moderator actions in UI ✅ done
@@ -31,12 +32,16 @@
 - Deliverable: alias-based contributor model with no personal identity fields.
 - Acceptance: submissions and promotions include anonymous contributor metadata only.
 
+7. Add minimal public-data exploration from seed photo + location ✅ done
+- Deliverable: API-only pull around seed entry and suggested up-to-2-mile walk loop.
+- Acceptance: generated exploration JSON is rendered in app and references non-scraping pull mode.
+
 Brainstorm directions: `docs/brainstorm-urban-community-nature.md`
-
-## Suggested next tasks
-
 Retrospective reference: `docs/mvp-retrospective-2026-02-24.md`
 
+## Suggested next tasks
 1. Replace static serving with a lightweight API service for shared moderation queue state.
 2. Add map clustering and distance-based discovery sorting.
 3. Add moderation-only abuse defenses (hashed fingerprints, rate limits, alias policy checks) without exposing identity.
+4. Add source adapters beyond iNaturalist with API-first ingestion and clear policy boundaries.
+5. Add walk-cap UI controls (1.0, 1.5, 2.0 miles) and compare completion behavior.
