@@ -14,7 +14,7 @@
 - Deliverable: `scripts/promoteDraft.mjs` that takes one queued draft JSON and appends a schema-complete entry to `data/mini-gardens.json`.
 - Acceptance: `npm run check` remains green after promotion.
 
-3. Add duplicate detection gate
+3. Add duplicate detection gate ✅ done
 - Deliverable: draft ingest check that blocks submissions with identical street segment + near-identical name.
 - Acceptance: duplicate candidate is rejected with a clear message.
 

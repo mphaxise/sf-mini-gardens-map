@@ -4,6 +4,8 @@ import test from "node:test";
 import {
   DRAFT_QUEUE_STATUSES,
   buildDraftSubmission,
+  duplicateSignature,
+  hasDuplicateSubmission,
   slugify,
   updateDraftQueueStatus
 } from "../lib/submissionDraft.mjs";
@@ -21,6 +23,60 @@ test("draft status list includes expected moderation states", () => {
 test("slugify normalizes mixed text", () => {
   assert.equal(slugify("Elm Alley Pot Cluster"), "elm-alley-pot-cluster");
   assert.equal(slugify("  301! Jarboe Garden  "), "301-jarboe-garden");
+});
+
+test("duplicateSignature normalizes corridor regardless of cross-street order", () => {
+  const a = {
+    name: "Elm Alley Pot Cluster",
+    street_segment: {
+      street_name: "Jarboe St",
+      from_street: "Ellsworth St",
+      to_street: "Gates St"
+    }
+  };
+
+  const b = {
+    name: "elm alley pot cluster",
+    street_segment: {
+      street_name: "jarboe st",
+      from_street: "Gates St",
+      to_street: "Ellsworth St"
+    }
+  };
+
+  assert.equal(duplicateSignature(a), duplicateSignature(b));
+});
+
+test("hasDuplicateSubmission flags equivalent candidate", () => {
+  const candidate = {
+    name: "Elm Alley Pot Cluster",
+    street_segment: {
+      street_name: "Jarboe St",
+      from_street: "Ellsworth St",
+      to_street: "Gates St"
+    }
+  };
+
+  const existing = [
+    {
+      name: "Jarboe Street Sidewalk Mini-Garden",
+      street_segment: {
+        street_name: "Jarboe St",
+        from_street: "Ellsworth St",
+        to_street: "Gates St"
+      }
+    },
+    {
+      name: "Elm Alley Pot Cluster",
+      street_segment: {
+        street_name: "Jarboe St",
+        from_street: "Gates St",
+        to_street: "Ellsworth St"
+      }
+    }
+  ];
+
+  assert.equal(hasDuplicateSubmission(candidate, existing), true);
 });
 
 test("buildDraftSubmission returns normalized queued draft", () => {

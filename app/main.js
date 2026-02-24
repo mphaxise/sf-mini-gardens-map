@@ -1,6 +1,7 @@
 import {
   DRAFT_QUEUE_STATUSES,
   buildDraftSubmission,
+  hasDuplicateSubmission,
   updateDraftQueueStatus
 } from "../lib/submissionDraft.mjs";
 
@@ -25,6 +26,8 @@ const statusLabel = {
   verified: "Verified",
   rejected: "Rejected"
 };
+
+let canonicalEntries = [];
 
 function mapEmbedUrl(lat, lng) {
   const delta = 0.0035;
@@ -136,15 +139,15 @@ async function loadEntries() {
 
 async function initEntries() {
   try {
-    const entries = await loadEntries();
-    if (entries.length === 0) {
+    canonicalEntries = await loadEntries();
+    if (canonicalEntries.length === 0) {
       mapStatus.textContent = "No entries available yet.";
       entriesList.innerHTML = "<li>No verified entries.</li>";
       return;
     }
 
-    entriesList.innerHTML = entries.map(entryToListItem).join("");
-    const focus = entries[0];
+    entriesList.innerHTML = canonicalEntries.map(entryToListItem).join("");
+    const focus = canonicalEntries[0];
     mapFrame.src = mapEmbedUrl(focus.coordinates.lat, focus.coordinates.lng);
     mapStatus.textContent = `Showing ${focus.street_segment.street_name} pilot entry.`;
   } catch (error) {
@@ -159,6 +162,12 @@ submissionForm.addEventListener("submit", (event) => {
 
   try {
     const draft = buildDraftSubmission(values);
+    const duplicatePool = [...loadDrafts(), ...canonicalEntries];
+
+    if (hasDuplicateSubmission(draft, duplicatePool)) {
+      throw new Error("Potential duplicate found for this street corridor and name");
+    }
+
     const drafts = saveDraft(draft);
     submissionPreview.textContent = JSON.stringify(draft, null, 2);
     submissionStatus.textContent = `Draft queued locally. Queue depth: ${drafts.length}.`;
