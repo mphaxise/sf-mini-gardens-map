@@ -46,3 +46,5 @@ npm run start
 Detailed task list: `docs/next-step-backlog.md`
 
 Latest release summary: `CHANGELOG.md`
+
+Retrospective: `docs/mvp-retrospective-2026-02-24.md`

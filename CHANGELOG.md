@@ -29,3 +29,6 @@
 
 ### Quality
 - Test suite expanded to cover data model, anonymous contributor profiles, submission workflow, promotion flow, duplicate detection, and neighborhood filtering.
+
+### Documentation
+- Added post-MVP retrospective: `docs/mvp-retrospective-2026-02-24.md`.

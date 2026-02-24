@@ -32,6 +32,9 @@
 - Acceptance: submissions and promotions include anonymous contributor metadata only.
 
 ## Suggested next tasks
+
+Retrospective reference: `docs/mvp-retrospective-2026-02-24.md`
+
 1. Replace static serving with a lightweight API service for shared moderation queue state.
 2. Add map clustering and distance-based discovery sorting.
 3. Add moderation-only abuse defenses (hashed fingerprints, rate limits, alias policy checks) without exposing identity.
