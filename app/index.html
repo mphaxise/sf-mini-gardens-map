@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SF Mini Gardens Map</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <p class="eyebrow">SF Pilot</p>
+      <h1>Neighborhood Mini-Gardens</h1>
+      <p class="lead">
+        Discover resident-created mini-gardens across San Francisco blocks and submit new sightings for community verification.
+      </p>
+      <p class="meta">Seed focus: Jarboe St between Ellsworth St and Gates St.</p>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <h2>Verified map view</h2>
+        <p id="map-status" class="muted">Loading pilot entry...</p>
+        <iframe
+          id="map-frame"
+          title="Mini-garden map"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </section>
+
+      <section class="panel">
+        <h2>Current verified entries</h2>
+        <ul id="entries" class="entry-list"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>Submission workflow draft</h2>
+        <ol class="workflow">
+          <li>Capture a sidewalk-visible mini-garden photo and nearest cross streets.</li>
+          <li>Submit a draft entry with location notes and plant highlights.</li>
+          <li>Community reviewer validates street segment and marks status.</li>
+        </ol>
+
+        <form id="submission-form" class="submission-form">
+          <label>
+            Garden name
+            <input name="name" required placeholder="e.g., Elm Alley Pot Cluster" />
+          </label>
+          <label>
+            Street name
+            <input name="streetName" required placeholder="e.g., Jarboe St" />
+          </label>
+          <label>
+            Cross streets
+            <div class="row">
+              <input name="fromStreet" required placeholder="From" />
+              <input name="toStreet" required placeholder="To" />
+            </div>
+          </label>
+          <label>
+            Short description
+            <textarea
+              name="description"
+              rows="3"
+              required
+              placeholder="What makes this mini-garden special?"
+            ></textarea>
+          </label>
+          <button type="submit">Create draft submission</button>
+        </form>
+
+        <p id="submission-status" class="muted"></p>
+        <pre id="submission-preview" class="preview"></pre>
+      </section>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

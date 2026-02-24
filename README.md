@@ -31,7 +31,7 @@ npm test
 ```bash
 npm run start
 ```
-3. Open <http://localhost:4173>
+3. Open <http://localhost:4173/app/>
 
 ## Current MVP slice
 - One schema-driven data model for mini-garden entries
