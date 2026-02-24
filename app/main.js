@@ -12,6 +12,7 @@ import {
 } from "../lib/submissionDraft.mjs";
 
 const DATA_URL = "../data/mini-gardens.json";
+const EXPLORATION_URL = "../data/exploration/seed-walk-sf-jarboe-ellsworth-gates-001.json";
 const DRAFT_STORAGE_KEY = "sf-mini-gardens-submission-drafts";
 const PROFILE_STORAGE_KEY = "sf-mini-gardens-anonymous-profiles";
 
@@ -20,6 +21,13 @@ const mapFrame = document.getElementById("map-frame");
 const mapStatus = document.getElementById("map-status");
 const neighborhoodFilter = document.getElementById("neighborhood-filter");
 const visibleEntryCount = document.getElementById("visible-entry-count");
+
+const explorationStatus = document.getElementById("exploration-status");
+const explorationSource = document.getElementById("exploration-source");
+const loopSummary = document.getElementById("loop-summary");
+const loopStops = document.getElementById("loop-stops");
+const explorationCandidates = document.getElementById("exploration-candidates");
+
 const submissionForm = document.getElementById("submission-form");
 const submissionStatus = document.getElementById("submission-status");
 const submissionPreview = document.getElementById("submission-preview");
@@ -40,6 +48,15 @@ const statusLabel = {
 
 let canonicalEntries = [];
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 function mapEmbedUrl(lat, lng) {
   const delta = 0.0035;
   const left = lng - delta;
@@ -53,11 +70,11 @@ function entryToListItem(entry) {
   const segment = `${entry.street_segment.street_name}, ${entry.street_segment.from_street} to ${entry.street_segment.to_street}`;
   return `
     <li>
-      <strong>${entry.name}</strong>
-      <span>${segment}</span><br />
-      <span>${entry.neighborhood}, ${entry.city}</span><br />
-      <span>Status: ${entry.status}</span>
-      <p>${entry.description}</p>
+      <strong>${escapeHtml(entry.name)}</strong>
+      <span>${escapeHtml(segment)}</span><br />
+      <span>${escapeHtml(entry.neighborhood)}, ${escapeHtml(entry.city)}</span><br />
+      <span>Status: ${escapeHtml(entry.status)}</span>
+      <p>${escapeHtml(entry.description)}</p>
     </li>
   `;
 }
@@ -65,10 +82,10 @@ function entryToListItem(entry) {
 function contributorToListItem(profile) {
   return `
     <li>
-      <strong>${profile.public_alias}</strong>
-      <span>Anon ID: ${profile.anon_id}</span><br />
-      <span>Tier: ${profile.trust_tier}</span><br />
-      <span>Submissions: ${profile.contribution_count} | Verified: ${profile.verified_count}</span>
+      <strong>${escapeHtml(profile.public_alias)}</strong>
+      <span>Anon ID: ${escapeHtml(profile.anon_id)}</span><br />
+      <span>Tier: ${escapeHtml(profile.trust_tier)}</span><br />
+      <span>Submissions: ${escapeHtml(profile.contribution_count)} | Verified: ${escapeHtml(profile.verified_count)}</span>
     </li>
   `;
 }
@@ -76,7 +93,7 @@ function contributorToListItem(profile) {
 function draftActionButtons(draft) {
   return DRAFT_QUEUE_STATUSES.map((status) => {
     const activeClass = status === draft.moderation.queue_status ? "chip active" : "chip";
-    return `<button type="button" class="${activeClass}" data-draft-id="${draft.id}" data-status="${status}">${statusLabel[status]}</button>`;
+    return `<button type="button" class="${activeClass}" data-draft-id="${escapeHtml(draft.id)}" data-status="${escapeHtml(status)}">${escapeHtml(statusLabel[status])}</button>`;
   }).join("");
 }
 
@@ -87,14 +104,38 @@ function draftToListItem(draft) {
 
   return `
     <li>
-      <strong>${draft.name}</strong>
-      <span>${segment}</span><br />
-      <span>Contributor: ${contributor.public_alias || "Anonymous"} (${contributor.trust_tier || "seedling"})</span><br />
-      <span>Queue: ${statusLabel[queueStatus] || queueStatus}</span><br />
-      <span>Created: ${new Date(draft.created_on).toLocaleString()}</span>
+      <strong>${escapeHtml(draft.name)}</strong>
+      <span>${escapeHtml(segment)}</span><br />
+      <span>Contributor: ${escapeHtml(contributor.public_alias || "Anonymous")} (${escapeHtml(contributor.trust_tier || "seedling")})</span><br />
+      <span>Queue: ${escapeHtml(statusLabel[queueStatus] || queueStatus)}</span><br />
+      <span>Created: ${escapeHtml(new Date(draft.created_on).toLocaleString())}</span>
       <div class="draft-actions">${draftActionButtons(draft)}</div>
     </li>
   `;
+}
+
+function explorationCandidateToListItem(candidate) {
+  const species = candidate.species_common_name || "Unknown";
+  const scientific = candidate.species_scientific_name ? ` (${candidate.species_scientific_name})` : "";
+  const place = candidate.place_guess || "Location not specified";
+  const photo = candidate.photo_url
+    ? `<img class="exploration-photo" src="${escapeHtml(candidate.photo_url)}" alt="${escapeHtml(species)}" loading="lazy" />`
+    : "";
+
+  return `
+    <li>
+      ${photo}
+      <strong>${escapeHtml(species)}${escapeHtml(scientific)}</strong>
+      <span>${escapeHtml(place)}</span><br />
+      <span>${escapeHtml(candidate.distance_from_seed_miles)} miles from seed</span><br />
+      <a href="${escapeHtml(candidate.observation_url)}" target="_blank" rel="noreferrer">View public observation</a>
+    </li>
+  `;
+}
+
+function loopStopToListItem(stop, index) {
+  const species = stop.species_common_name || "Unknown";
+  return `<li>Stop ${index + 1}: ${escapeHtml(species)} at ${escapeHtml(stop.distance_from_seed_miles)} miles from seed (${escapeHtml(stop.distance_from_previous_miles)} miles from previous stop)</li>`;
 }
 
 function loadDrafts() {
@@ -148,7 +189,7 @@ function renderContributors() {
 
 function renderNeighborhoodOptions(entries) {
   const options = buildNeighborhoodOptions(entries);
-  neighborhoodFilter.innerHTML = ['<option value="all">All neighborhoods</option>', ...options.map((name) => `<option value="${name}">${name}</option>`)].join("");
+  neighborhoodFilter.innerHTML = ['<option value="all">All neighborhoods</option>', ...options.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`)].join("");
 }
 
 function renderCanonicalEntries() {
@@ -166,6 +207,25 @@ function renderCanonicalEntries() {
   const focus = filtered[0];
   mapFrame.src = mapEmbedUrl(focus.coordinates.lat, focus.coordinates.lng);
   mapStatus.textContent = `Showing ${focus.street_segment.street_name} (${focus.neighborhood}).`;
+}
+
+function renderExploration(exploration) {
+  const loop = exploration?.suggested_loop;
+  const candidates = exploration?.top_candidates || [];
+  const source = exploration?.source || {};
+  const ingestion = exploration?.ingestion || {};
+
+  explorationStatus.textContent = `Seed ${exploration.seed.entry_id}: ${ingestion.candidate_count || 0} nearby public observations found.`;
+  explorationSource.textContent = `Source: ${source.provider || "Unknown"}. Pull mode: ${source.pull_mode || "n/a"}. Scraping mode: ${source.scraping_mode || "n/a"}.`;
+
+  loopSummary.textContent = `Loop budget ${loop.max_walk_miles} miles. Suggested ${loop.stop_count} stops, total ${loop.total_miles} miles, remaining ${loop.remaining_miles} miles.`;
+  loopStops.innerHTML = loop.stop_count > 0
+    ? loop.stops.map(loopStopToListItem).join("")
+    : "<li>No feasible stops inside walk budget.</li>";
+
+  explorationCandidates.innerHTML = candidates.length
+    ? candidates.slice(0, 6).map(explorationCandidateToListItem).join("")
+    : "<li>No public observation candidates loaded.</li>";
 }
 
 function downloadDrafts() {
@@ -222,6 +282,14 @@ async function loadEntries() {
   return payload.entries || [];
 }
 
+async function loadExplorationData() {
+  const response = await fetch(EXPLORATION_URL);
+  if (!response.ok) {
+    throw new Error(`Failed to load exploration data (${response.status})`);
+  }
+  return response.json();
+}
+
 async function initEntries() {
   try {
     canonicalEntries = await loadEntries();
@@ -238,6 +306,19 @@ async function initEntries() {
     mapStatus.textContent = `Unable to load map data: ${error.message}`;
     entriesList.innerHTML = "<li>Data failed to load.</li>";
     visibleEntryCount.textContent = "0";
+  }
+}
+
+async function initExploration() {
+  try {
+    const exploration = await loadExplorationData();
+    renderExploration(exploration);
+  } catch (error) {
+    explorationStatus.textContent = `Exploration unavailable: ${error.message}`;
+    explorationSource.textContent = "Run `npm run explore:seed` to refresh public exploration data.";
+    loopSummary.textContent = "";
+    loopStops.innerHTML = "<li>Exploration data is not loaded.</li>";
+    explorationCandidates.innerHTML = "<li>No exploration candidates available.</li>";
   }
 }
 
@@ -297,5 +378,6 @@ clearDraftsBtn.addEventListener("click", () => {
 });
 
 initEntries();
+initExploration();
 renderDrafts();
 renderContributors();

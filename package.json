@@ -7,6 +7,7 @@
     "check": "node scripts/validateMiniGardens.mjs",
     "test": "node --test",
     "start": "python3 -m http.server 4173",
-    "promote:draft": "node scripts/promoteDraft.mjs"
+    "promote:draft": "node scripts/promoteDraft.mjs",
+    "explore:seed": "node scripts/exploreFromSeed.mjs"
   }
 }

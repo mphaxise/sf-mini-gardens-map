@@ -1,0 +1,426 @@
+{
+  "generated_on": "2026-02-24T23:33:37.412Z",
+  "source": {
+    "provider": "iNaturalist Public API",
+    "endpoint": "https://api.inaturalist.org/v1/observations?lat=37.7263&lng=-122.4377&radius=3.21868&photos=true&geoprivacy=open&per_page=80&order_by=created_at&order=desc",
+    "pull_mode": "api",
+    "scraping_mode": "none",
+    "notes": "Exploration-only pull from public API around a seed location"
+  },
+  "seed": {
+    "entry_id": "sf-jarboe-ellsworth-gates-001",
+    "name": "Jarboe Street Sidewalk Mini-Garden",
+    "neighborhood": "Excelsior",
+    "street_segment": {
+      "street_name": "Jarboe St",
+      "from_street": "Ellsworth St",
+      "to_street": "Gates St"
+    },
+    "coordinates": {
+      "lat": 37.7263,
+      "lng": -122.4377
+    },
+    "seed_photo_caption": "Sidewalk mini-garden with potted plants and hanging baskets along a neighborhood street."
+  },
+  "constraints": {
+    "search_radius_miles": 2,
+    "max_walk_miles": 2,
+    "max_stops": 4,
+    "recommended_feature": "up to a 2-mile neighborhood nature walk loop"
+  },
+  "ingestion": {
+    "raw_observations_count": 80,
+    "candidate_count": 80
+  },
+  "suggested_loop": {
+    "max_walk_miles": 2,
+    "total_miles": 1.246,
+    "return_to_seed_miles": 0.57,
+    "remaining_miles": 0.754,
+    "stop_count": 2,
+    "stops": [
+      {
+        "id": 339805621,
+        "observed_on": "2026-02-22 15:14:32",
+        "species_common_name": "golden chalice vine",
+        "species_scientific_name": "Solandra maxima",
+        "observation_url": "https://www.inaturalist.org/observations/339805621",
+        "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618231794/medium.jpg",
+        "coordinates": {
+          "lat": 37.7317222391,
+          "lng": -122.440729074
+        },
+        "place_guess": "Monterey Blvd & Baden St, San Francisco, CA 94131, USA",
+        "distance_from_seed_miles": 0.41,
+        "distance_from_previous_miles": 0.41
+      },
+      {
+        "id": 339790251,
+        "observed_on": "2026-02-22 13:23:02-08:00",
+        "species_common_name": "field marigold",
+        "species_scientific_name": "Calendula arvensis",
+        "observation_url": "https://www.inaturalist.org/observations/339790251",
+        "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618198871/medium.jpg",
+        "coordinates": {
+          "lat": 37.7345457238,
+          "lng": -122.4374074295
+        },
+        "place_guess": "Crosstown Trail, San Francisco, CA, US",
+        "distance_from_seed_miles": 0.57,
+        "distance_from_previous_miles": 0.266
+      }
+    ]
+  },
+  "top_candidates": [
+    {
+      "id": 339805621,
+      "observed_on": "2026-02-22 15:14:32",
+      "species_common_name": "golden chalice vine",
+      "species_scientific_name": "Solandra maxima",
+      "observation_url": "https://www.inaturalist.org/observations/339805621",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618231794/medium.jpg",
+      "coordinates": {
+        "lat": 37.7317222391,
+        "lng": -122.440729074
+      },
+      "place_guess": "Monterey Blvd & Baden St, San Francisco, CA 94131, USA",
+      "distance_from_seed_miles": 0.41
+    },
+    {
+      "id": 339790251,
+      "observed_on": "2026-02-22 13:23:02-08:00",
+      "species_common_name": "field marigold",
+      "species_scientific_name": "Calendula arvensis",
+      "observation_url": "https://www.inaturalist.org/observations/339790251",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618198871/medium.jpg",
+      "coordinates": {
+        "lat": 37.7345457238,
+        "lng": -122.4374074295
+      },
+      "place_guess": "Crosstown Trail, San Francisco, CA, US",
+      "distance_from_seed_miles": 0.57
+    },
+    {
+      "id": 339852929,
+      "observed_on": "2026-02-22 14:22:31-08:00",
+      "species_common_name": "greenshield lichens",
+      "species_scientific_name": "Flavoparmelia",
+      "observation_url": "https://www.inaturalist.org/observations/339852929",
+      "photo_url": "https://static.inaturalist.org/photos/618330215/medium.jpg",
+      "coordinates": {
+        "lat": 37.7159833333,
+        "lng": -122.4314416667
+      },
+      "place_guess": "Crocker Amazon Playground Picnic Area, San Francisco, CA, US",
+      "distance_from_seed_miles": 0.791
+    },
+    {
+      "id": 339852919,
+      "observed_on": "2026-02-22 14:22:33-08:00",
+      "species_common_name": "Gold Dust Lichens",
+      "species_scientific_name": "Chrysothrix",
+      "observation_url": "https://www.inaturalist.org/observations/339852919",
+      "photo_url": "https://static.inaturalist.org/photos/618330176/medium.jpg",
+      "coordinates": {
+        "lat": 37.71593,
+        "lng": -122.4314033333
+      },
+      "place_guess": "Crocker Amazon Playground Picnic Area, San Francisco, CA, US",
+      "distance_from_seed_miles": 0.795
+    },
+    {
+      "id": 339852906,
+      "observed_on": "2026-02-22 14:22:42-08:00",
+      "species_common_name": "bushy lichens",
+      "species_scientific_name": "Ramalina",
+      "observation_url": "https://www.inaturalist.org/observations/339852906",
+      "photo_url": "https://static.inaturalist.org/photos/618330147/medium.jpg",
+      "coordinates": {
+        "lat": 37.7159,
+        "lng": -122.4312966667
+      },
+      "place_guess": "Crocker Amazon Playground Picnic Area, San Francisco, CA, US",
+      "distance_from_seed_miles": 0.799
+    },
+    {
+      "id": 339852883,
+      "observed_on": "2026-02-22 14:22:49-08:00",
+      "species_common_name": "Mosses",
+      "species_scientific_name": "Bryophyta",
+      "observation_url": "https://www.inaturalist.org/observations/339852883",
+      "photo_url": "https://static.inaturalist.org/photos/618330112/medium.jpg",
+      "coordinates": {
+        "lat": 37.7158583333,
+        "lng": -122.4312966667
+      },
+      "place_guess": "Crocker Amazon Playground Picnic Area, San Francisco, CA, US",
+      "distance_from_seed_miles": 0.802
+    },
+    {
+      "id": 339971999,
+      "observed_on": "2026-02-23 17:38:07",
+      "species_common_name": "Red-tailed Hawk",
+      "species_scientific_name": "Buteo jamaicensis",
+      "observation_url": "https://www.inaturalist.org/observations/339971999",
+      "photo_url": "https://static.inaturalist.org/photos/618572748/medium.jpg",
+      "coordinates": {
+        "lat": 37.7240320071,
+        "lng": -122.4530959502
+      },
+      "place_guess": "City College Terminal, San Francisco, CA 94112, USA",
+      "distance_from_seed_miles": 0.856
+    },
+    {
+      "id": 339700818,
+      "observed_on": "2026-01-17 15:00:56-08:00",
+      "species_common_name": "Rose-of-sharon",
+      "species_scientific_name": "Hypericum calycinum",
+      "observation_url": "https://www.inaturalist.org/observations/339700818",
+      "photo_url": "https://static.inaturalist.org/photos/618019084/medium.jpg",
+      "coordinates": {
+        "lat": 37.74062,
+        "lng": -122.43418
+      },
+      "place_guess": "Walter Haas Playground, San Francisco, CA, US",
+      "distance_from_seed_miles": 1.008
+    },
+    {
+      "id": 339688962,
+      "observed_on": "2026-02-20 16:10:28",
+      "species_common_name": "mica cap",
+      "species_scientific_name": "Coprinellus micaceus",
+      "observation_url": "https://www.inaturalist.org/observations/339688962",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/617995495/medium.jpg",
+      "coordinates": {
+        "lat": 37.7329027778,
+        "lng": -122.4197083333
+      },
+      "place_guess": "989 Ellsworth St, San Francisco, CA 94110, USA",
+      "distance_from_seed_miles": 1.084
+    },
+    {
+      "id": 339825720,
+      "observed_on": "2026-02-22 17:38:58",
+      "species_common_name": "Anna's Hummingbird",
+      "species_scientific_name": "Calypte anna",
+      "observation_url": "https://www.inaturalist.org/observations/339825720",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618273891/medium.jpg",
+      "coordinates": {
+        "lat": 37.73867,
+        "lng": -122.4249883333
+      },
+      "place_guess": "Arlington St, San Francisco, CA, US",
+      "distance_from_seed_miles": 1.101
+    },
+    {
+      "id": 339679043,
+      "observed_on": "2026/02/21 5:06 PM",
+      "species_common_name": "Anna's Hummingbird",
+      "species_scientific_name": "Calypte anna",
+      "observation_url": "https://www.inaturalist.org/observations/339679043",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/617973858/medium.jpg",
+      "coordinates": {
+        "lat": 37.7337213613,
+        "lng": -122.4562392719
+      },
+      "place_guess": "Westwood Highlands, San Francisco, CA 94127, USA",
+      "distance_from_seed_miles": 1.135
+    },
+    {
+      "id": 339822663,
+      "observed_on": "2026/02/22 4:33 PM",
+      "species_common_name": "California Alligator Lizard",
+      "species_scientific_name": "Elgaria multicarinata multicarinata",
+      "observation_url": "https://www.inaturalist.org/observations/339822663",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618266554/medium.jpg",
+      "coordinates": {
+        "lat": 37.7390501464,
+        "lng": -122.4523940412
+      },
+      "place_guess": "Sherwood Forest, San Francisco, CA 94127, USA",
+      "distance_from_seed_miles": 1.192
+    },
+    {
+      "id": 339822664,
+      "observed_on": "2026/02/22 4:33 PM",
+      "species_common_name": "Ranchman's Tiger Moth",
+      "species_scientific_name": "Arctia virginalis",
+      "observation_url": "https://www.inaturalist.org/observations/339822664",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618266725/medium.jpg",
+      "coordinates": {
+        "lat": 37.7390925704,
+        "lng": -122.4523713643
+      },
+      "place_guess": "Sherwood Forest, San Francisco, CA 94127, USA",
+      "distance_from_seed_miles": 1.193
+    },
+    {
+      "id": 339822665,
+      "observed_on": "2026/02/22 4:33 PM",
+      "species_common_name": "San Francisco Alligator Lizard",
+      "species_scientific_name": "Elgaria coerulea coerulea",
+      "observation_url": "https://www.inaturalist.org/observations/339822665",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618266815/medium.jpg",
+      "coordinates": {
+        "lat": 37.7390891719,
+        "lng": -122.4524478073
+      },
+      "place_guess": "Sherwood Forest, San Francisco, CA 94127, USA",
+      "distance_from_seed_miles": 1.196
+    },
+    {
+      "id": 339962218,
+      "observed_on": "2026-02-23 14:32:02",
+      "species_common_name": "Indian Walking Stick",
+      "species_scientific_name": "Carausius morosus",
+      "observation_url": "https://www.inaturalist.org/observations/339962218",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618551769/medium.jpg",
+      "coordinates": {
+        "lat": 37.7430116667,
+        "lng": -122.4319533333
+      },
+      "place_guess": "29th St, San Francisco, CA, US",
+      "distance_from_seed_miles": 1.197
+    },
+    {
+      "id": 339960485,
+      "observed_on": "2026-02-23 15:44:50",
+      "species_common_name": "bluehead gilia",
+      "species_scientific_name": "Gilia capitata",
+      "observation_url": "https://www.inaturalist.org/observations/339960485",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618548183/medium.jpg",
+      "coordinates": {
+        "lat": 37.7354333,
+        "lng": -122.4180221
+      },
+      "place_guess": "Crescent Ave & Porter St, San Francisco, CA 94110, USA",
+      "distance_from_seed_miles": 1.247
+    },
+    {
+      "id": 339779626,
+      "observed_on": "2026-02-22 12:10:11-08:00",
+      "species_common_name": "Red-flowering Currant",
+      "species_scientific_name": "Ribes sanguineum",
+      "observation_url": "https://www.inaturalist.org/observations/339779626",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618177498/medium.jpg",
+      "coordinates": {
+        "lat": 37.7211348564,
+        "lng": -122.4154089843
+      },
+      "place_guess": "McLaren Park, San Francisco, CA, US",
+      "distance_from_seed_miles": 1.269
+    },
+    {
+      "id": 339775349,
+      "observed_on": "2026-02-22 11:38:19-08:00",
+      "species_common_name": "Unknown",
+      "species_scientific_name": "",
+      "observation_url": "https://www.inaturalist.org/observations/339775349",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618168870/medium.jpg",
+      "coordinates": {
+        "lat": 37.7266002264,
+        "lng": -122.4630718064
+      },
+      "place_guess": "Fairfield Way, San Francisco, CA, US",
+      "distance_from_seed_miles": 1.387
+    },
+    {
+      "id": 339778859,
+      "observed_on": "2026-02-22 12:05:22-08:00",
+      "species_common_name": "Black Phoebe",
+      "species_scientific_name": "Sayornis nigricans",
+      "observation_url": "https://www.inaturalist.org/observations/339778859",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618176023/medium.jpg",
+      "coordinates": {
+        "lat": 37.7203033333,
+        "lng": -122.41337
+      },
+      "place_guess": "McLaren Park, San Francisco, CA, US",
+      "distance_from_seed_miles": 1.393
+    },
+    {
+      "id": 339821865,
+      "observed_on": "2026-02-22 17:25:20-08:00",
+      "species_common_name": "Mediterranean buckthorn",
+      "species_scientific_name": "Rhamnus alaternus",
+      "observation_url": "https://www.inaturalist.org/observations/339821865",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618265196/medium.jpg",
+      "coordinates": {
+        "lat": 37.7427203134,
+        "lng": -122.4529185369
+      },
+      "place_guess": "Chaves Ave, San Francisco, CA, US",
+      "distance_from_seed_miles": 1.407
+    },
+    {
+      "id": 339682787,
+      "observed_on": "2026/02/21 3:40 PM",
+      "species_common_name": "Muscoid Flies",
+      "species_scientific_name": "Muscoidea",
+      "observation_url": "https://www.inaturalist.org/observations/339682787",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/617982321/medium.jpg",
+      "coordinates": {
+        "lat": 37.7180316,
+        "lng": -122.4141297
+      },
+      "place_guess": "McLaren Park, San Francisco, CA, USA",
+      "distance_from_seed_miles": 1.409
+    },
+    {
+      "id": 339682538,
+      "observed_on": "2026/02/21 3:30 PM",
+      "species_common_name": "West Coast Lady",
+      "species_scientific_name": "Vanessa annabella",
+      "observation_url": "https://www.inaturalist.org/observations/339682538",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/617981714/medium.jpg",
+      "coordinates": {
+        "lat": 37.7180316,
+        "lng": -122.4141297
+      },
+      "place_guess": "McLaren Park, San Francisco, CA, USA",
+      "distance_from_seed_miles": 1.409
+    },
+    {
+      "id": 339682470,
+      "observed_on": "2026/02/21 3:30 PM",
+      "species_common_name": "American Red Admiral",
+      "species_scientific_name": "Vanessa atalanta rubria",
+      "observation_url": "https://www.inaturalist.org/observations/339682470",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/617981523/medium.jpg",
+      "coordinates": {
+        "lat": 37.7180316,
+        "lng": -122.4141297
+      },
+      "place_guess": "McLaren Park, San Francisco, CA, USA",
+      "distance_from_seed_miles": 1.409
+    },
+    {
+      "id": 339681522,
+      "observed_on": "2026/02/21 4:00 PM",
+      "species_common_name": "Yellow-faced Bumble Bee",
+      "species_scientific_name": "Bombus vosnesenskii",
+      "observation_url": "https://www.inaturalist.org/observations/339681522",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/617979947/medium.jpg",
+      "coordinates": {
+        "lat": 37.7180316,
+        "lng": -122.4141297
+      },
+      "place_guess": "McLaren Park, San Francisco, CA, USA",
+      "distance_from_seed_miles": 1.409
+    },
+    {
+      "id": 339794987,
+      "observed_on": "2026-02-22 13:58:54-08:00",
+      "species_common_name": "checkerbloom",
+      "species_scientific_name": "Sidalcea malviflora",
+      "observation_url": "https://www.inaturalist.org/observations/339794987",
+      "photo_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618214793/medium.jpg",
+      "coordinates": {
+        "lat": 37.7460769585,
+        "lng": -122.4507444087
+      },
+      "place_guess": "Twin Peaks, San Francisco, CA, US",
+      "distance_from_seed_miles": 1.541
+    }
+  ]
+}

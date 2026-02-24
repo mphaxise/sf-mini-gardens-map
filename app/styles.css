@@ -227,3 +227,17 @@ h2 {
     grid-template-columns: 1fr;
   }
 }
+
+.exploration-photo {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  margin-bottom: 0.45rem;
+}
+
+.entry-list a {
+  color: #1f5c29;
+  font-weight: 600;
+}
