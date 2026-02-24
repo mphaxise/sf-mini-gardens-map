@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "last_updated": "2026-02-24",
+  "entries": [
+    {
+      "id": "sf-jarboe-ellsworth-gates-001",
+      "name": "Jarboe Street Sidewalk Mini-Garden",
+      "status": "verified",
+      "city": "San Francisco",
+      "state": "CA",
+      "street_segment": {
+        "street_name": "Jarboe St",
+        "from_street": "Ellsworth St",
+        "to_street": "Gates St"
+      },
+      "coordinates": {
+        "lat": 37.7263,
+        "lng": -122.4377
+      },
+      "neighborhood": "Excelsior",
+      "description": "Resident-created sidewalk mini-garden cluster with grouped container plants and hanging planters along a residential frontage.",
+      "plant_highlights": [
+        "Clustered potted plants",
+        "Hanging baskets",
+        "Dense curbside greenery"
+      ],
+      "visit_notes": "Publicly visible from the sidewalk. Keep pathways clear and avoid touching private planters.",
+      "privacy_level": "public-street-visible",
+      "verification": {
+        "verified_on": "2026-02-24",
+        "evidence": "Manual backlog seed with real-world reference photo captured 2026-02-24; house number 301 visible in source image.",
+        "verifier": "founder-seed"
+      },
+      "submission": {
+        "source": "manual_ideas.json",
+        "created_on": "2026-02-24",
+        "contact_optional": ""
+      },
+      "photo_reference": {
+        "source": "user-uploaded chat image",
+        "captured_on": "2026-02-24",
+        "location_hint": "San Francisco residential sidewalk frontage (house number 301 visible)",
+        "caption": "Sidewalk mini-garden with potted plants and hanging baskets along a neighborhood street.",
+        "usage": "Seed visual reference for pilot listing and submission guidelines."
+      }
+    }
+  ]
+}

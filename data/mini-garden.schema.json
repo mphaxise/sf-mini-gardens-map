@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/sf-mini-gardens/mini-garden.schema.json",
+  "title": "SF Mini Gardens Dataset",
+  "type": "object",
+  "required": ["schema_version", "last_updated", "entries"],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date"
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "status",
+          "city",
+          "state",
+          "street_segment",
+          "coordinates",
+          "neighborhood",
+          "description",
+          "plant_highlights",
+          "visit_notes",
+          "privacy_level",
+          "verification",
+          "submission"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^sf-[a-z0-9-]+$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3
+          },
+          "status": {
+            "type": "string",
+            "enum": ["verified", "pending_review", "rejected"]
+          },
+          "city": {
+            "type": "string",
+            "const": "San Francisco"
+          },
+          "state": {
+            "type": "string",
+            "const": "CA"
+          },
+          "street_segment": {
+            "type": "object",
+            "required": ["street_name", "from_street", "to_street"],
+            "properties": {
+              "street_name": { "type": "string" },
+              "from_street": { "type": "string" },
+              "to_street": { "type": "string" }
+            }
+          },
+          "coordinates": {
+            "type": "object",
+            "required": ["lat", "lng"],
+            "properties": {
+              "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+              "lng": { "type": "number", "minimum": -180, "maximum": 180 }
+            }
+          },
+          "neighborhood": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "plant_highlights": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1
+          },
+          "visit_notes": {
+            "type": "string"
+          },
+          "privacy_level": {
+            "type": "string",
+            "enum": ["public-street-visible", "sensitive"]
+          },
+          "verification": {
+            "type": "object",
+            "required": ["verified_on", "evidence", "verifier"],
+            "properties": {
+              "verified_on": { "type": "string", "format": "date" },
+              "evidence": { "type": "string" },
+              "verifier": { "type": "string" }
+            }
+          },
+          "submission": {
+            "type": "object",
+            "required": ["source", "created_on", "contact_optional"],
+            "properties": {
+              "source": { "type": "string" },
+              "created_on": { "type": "string", "format": "date" },
+              "contact_optional": { "type": "string" }
+            }
+          },
+          "photo_reference": {
+            "type": "object",
+            "required": ["source", "captured_on", "location_hint", "caption", "usage"],
+            "properties": {
+              "source": { "type": "string" },
+              "captured_on": { "type": "string", "format": "date" },
+              "location_hint": { "type": "string" },
+              "caption": { "type": "string" },
+              "usage": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
